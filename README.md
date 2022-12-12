@@ -1,66 +1,86 @@
 # hms_itk
-Project ITK
+Project ITK Health Management System
 
 ### User
 Conatins basic information about all users.
 
-- Id
-- FirstName
-- LastName
-- UserName
-- Password
-- Address
-- Cellphone
-- Mail
-- CreatedDate
+- user_id (Primary Key)
+- role_id (Foreign Key to Role)
+- first_name
+- last_name
+- sex
+- birthday
+- username
+- passwd
+- email
+- contact
+- creation_date
 - is_deleted
-- id_role
 
 ### Patient
 Contains the patient's information.
 
-- Id (Foreing Key to USER)
-- Social segurity Number
+- patient_id (Foreing Key to USER)
+- ss_num
+- weight
+- height
+- has_appointment
+- appointment_id (Foreing Key to Appointment)
+- risk_factors
+- food_alergies
+- med_alergies
+- covid_vaccine
 
 ### Doctor 
 Contains the doctor's information.
 
-- Id (Foreing Key to USER)
-- Professional license 
-- Id_Specialty (Foreing Key to Specialty)
+- doctor_id (Foreing Key to USER)
+- university
+- graduation_year
+- license
+- specialty_id (Foreing Key to Specialty)
+- appointments_today
+- covid_vaccine
 
 ### Admin
-Contains the admin information. The admin has the power to create new doctors.
+Contains the admin's information. The admin has the power to create new doctors.
 
-- Id (Foreing Key to USER)
-- Description
+- admin_id (Foreing Key to USER)
+- description
 
 ### Specialty
 Contains the names of the Doctor's specializations.
 
-- Id
-- Description
+- specialty_id 
+- specialty_name
+- years_of_exp
+- sub_specialty
 
 ### Appointment
 Contains the appointment's information.
 
-- Id
-- Date
-- Id_patient
-- Id_doctor
-- Description
+- appointment_id
+- patient_id (Foreing Key to Patient)
+- doctor_id (Foreing Key to Doctor)
+- date
+- time
+- consulting_room
+- cost
+- description
+- is_deleted
 
 ### Role
-Contains the three types of roles available.
+Contains the three types of roles available for each existent user.
 
-- Id
-- Name
+- id (1: admin, 2: doctor, 3: patient)
+- name
 
 ### Message
 Contains the message's body sent throgh the platform.
 
-- Id
-- CreatedDate
-- From (mail)
-- To (Admin)
-- Body
+- message_id 
+- creation_date
+- creation_time
+- from (Foreing Key to USER ID)
+- to (Foreing Key to USER ID)
+- body
