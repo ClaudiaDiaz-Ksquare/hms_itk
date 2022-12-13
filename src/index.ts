@@ -1,13 +1,13 @@
 // Iniciar el servidor y la DB
 
 import dotenv from 'dotenv';
-// Loads .env file que incluye variables de entorno
+// Carga el .env file que incluye variables de entorno
 dotenv.config();
 import { startSequelize  } from './models';
-// import * as admin from "firebase-admin";
+import * as admin from "firebase-admin"; // npm install firebase-admin --save
 import app from './app';
 
-// admin.initializeApp() // cargar las credenciales desde la variable de entorno de google
+admin.initializeApp() // Para firebase => carga las credenciales desde la variable de entorno de google
 
 // poner generics <string> para que no dé un error de ambiguedad string|undefined
 const PORT = process.env.PORT;

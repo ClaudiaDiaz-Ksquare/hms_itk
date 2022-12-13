@@ -1,5 +1,4 @@
 "use strict";
-// Iniciar el servidor y la DB
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     var desc = Object.getOwnPropertyDescriptor(m, k);
@@ -32,31 +31,52 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const dotenv_1 = __importDefault(require("dotenv"));
-// Loads .env file que incluye variables de entorno
-dotenv_1.default.config();
-const models_1 = require("./models");
+exports.disableUser = exports.updateUser = exports.getAllUsers = exports.readUser = exports.createUser = void 0;
 const admin = __importStar(require("firebase-admin")); // npm install firebase-admin --save
-const app_1 = __importDefault(require("./app"));
-admin.initializeApp(); // cargar las credenciales desde la variable de entorno de google
-// poner generics <string> para que no dé un error de ambiguedad string|undefined
-const PORT = process.env.PORT;
-const DB_PASS = process.env.DB_PASS;
-const DB_USER = process.env.DB_USER;
-const DB_NAME = process.env.DB_NAME;
-const DB_HOSTNAME = process.env.DB_HOSTNAME;
-app_1.default.listen(PORT, () => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const sequelize = (0, models_1.startSequelize)(DB_NAME, DB_PASS, DB_HOSTNAME, DB_USER);
-        yield sequelize.sync(); // sincroniza metodos en sequelize con la DB en postgres
-        console.info('DB and Express server is up and running!!!!'); // ver esto en consola = funciona
-    }
-    catch (error) {
-        console.error(error);
-        process.abort(); // para que no se quede corriendo el server si hay un error
-    }
-}));
+const mapToUser = (user) => {
+    const customClaims = (user.customClaims || { role: "" });
+    const role = customClaims.role ? customClaims.role : "";
+    return {
+        uid: user.uid,
+        email: user.email,
+        userName: user.displayName,
+        role,
+        isDisabled: user.disabled
+    };
+};
+const createUser = (displayName, email, password, role) => __awaiter(void 0, void 0, void 0, function* () {
+    const { uid } = yield admin.auth().createUser({
+        displayName,
+        email,
+        password
+    });
+    yield admin.auth().setCustomUserClaims(uid, { role });
+    return uid;
+});
+exports.createUser = createUser;
+const readUser = (uid) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = yield admin.auth().getUser(uid);
+    return mapToUser(user);
+});
+exports.readUser = readUser;
+const getAllUsers = () => __awaiter(void 0, void 0, void 0, function* () {
+    const listOfUsers = yield admin.auth().listUsers(10);
+    const users = listOfUsers.users.map(mapToUser);
+    return users;
+});
+exports.getAllUsers = getAllUsers;
+const updateUser = (uid, displayName) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = yield admin.auth().updateUser(uid, {
+        displayName
+    });
+    return mapToUser(user);
+});
+exports.updateUser = updateUser;
+const disableUser = (uid, disabled) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = yield admin.auth().updateUser(uid, {
+        disabled
+    });
+    return `User ${uid} was succesfully disabled`;
+});
+exports.disableUser = disableUser;

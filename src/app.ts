@@ -3,7 +3,7 @@
 import express, { Application, Request, Response } from 'express';
 const app: Application = express(); // para el servidor
 // Importar routers
-import { UserRouter } from './routes/hms.routes'
+import { UserRouter } from './routes/user.routes'
 
 // Middleware that parses json -> transforma en json cualqueir peticion tipo json
 app.use(express.json());
