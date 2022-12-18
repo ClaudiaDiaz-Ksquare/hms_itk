@@ -7,7 +7,7 @@ Contains the three types of roles available for each existent user.
 
 | Property | Type        | Reference     | Comment                      |
 |----------|-------------|---------------|------------------------------|
-| id       | varchar(50) | PK - Not null |                              |
+| id       |     int     | PK - Not null |    1,        2,       3      |
 | title    | varchar(10) |    Not null   | "admin", "doctor", "patient" |
 
 
@@ -69,32 +69,32 @@ Contains the doctor's information.
 ### Specialty
 Contains the names of the Doctor's specializations.
 
-| Property | Type        | Reference     | Comment           |
-|----------|-------------|---------------|-------------------|
-| id       | varchar(50) | PK - Not null |                   |
-| name     | varchar(40) |    Not null   | i.e. "Pediatrics" |
+| Property | Type        | Reference                    | Comment           |
+|----------|-------------|------------------------------|-------------------|
+| id       |     int     | PK - Not null - Autoincrement|                   |
+| name     | varchar(40) |           Not null           | i.e. "Pediatrics" |
 
 
 ### Appointment
 Contains the appointment's information.
 
-| Property     | Type         | Reference     | Comment        |
-|--------------|--------------|---------------|----------------|
-| id           |  varchar(50) | PK - Not null |                |
-| patient_id   |  varchar(50) | FK - Not null |                |
-| doctor_id    |  varchar(50) | FK - Not null |                |
-| date_time    |     Date     |    Not null   |                |
-| cost         |      int     |    Not null   |                |
-| description  | varchar(150) |               |                |
-| is_cancelled |    Boolean   |               | default: false |
+| Property     | Type         | Reference                     | Comment        |
+|--------------|--------------|-------------------------------|----------------|
+| id           |      int     | PK - Not null - Autoincrement |                |
+| patient_id   |  varchar(50) |         FK - Not null         |                |
+| doctor_id    |  varchar(50) |         FK - Not null         |                |
+| date_time    |     Date     |            Not null           |                |
+| cost         |      int     |            Not null           |                |
+| description  | varchar(150) |                               |                |
+| is_cancelled |    Boolean   |                               | default: false |
 
 
 ### Message
 Contains the message's body sent throgh the platform.
 
-| Property | Type         | Reference     | Comment |
-|----------|--------------|---------------|---------|
-| id       |  varchar(50) | PK - Not null |         |
-| from     |  varchar(50) | FK - Not null |         |
-| to       |  varchar(50) | FK - Not null |         |
-| body     | varchar(150) |    Not null   |         |
+| Property  | Type         | Reference                    | Comment |
+|-----------|--------------|------------------------------|---------|
+| id        |      int     | PK - Not null - Autoincrement|         |
+| from_user |  varchar(50) |         FK - Not null        |         |
+| to_user   |  varchar(50) |         FK - Not null        |         |
+| body      | varchar(150) |           Not nulll          |         |
