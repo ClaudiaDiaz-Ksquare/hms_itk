@@ -11,11 +11,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteUserById = exports.updateUserById = exports.fetchUserById = exports.createUser = void 0;
-const hms_model_1 = require("../models/hms.model");
+const user_model_1 = require("../models/user.model");
 // Create operation
 const createUser = (first_name, last_name, birthday, username, passwd, creation_date) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const newUser = yield hms_model_1.User.create({
+        const newUser = yield user_model_1.User.create({
             first_name: first_name,
             last_name: last_name,
             birthday: birthday,
@@ -34,7 +34,7 @@ exports.createUser = createUser;
 // READ Operation
 const fetchUserById = (user_id) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const userFetched = yield hms_model_1.User.findByPk(user_id);
+        const userFetched = yield user_model_1.User.findByPk(user_id);
         return userFetched;
     }
     catch (error) {
@@ -47,7 +47,7 @@ exports.fetchUserById = fetchUserById;
 // Infer attributes para no pasar cada cosa/atributo del modelo
 const updateUserById = (user_id, userModel) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const userUpdated = yield hms_model_1.User.update({
+        const userUpdated = yield user_model_1.User.update({
             first_name: userModel.first_name,
             last_name: userModel.last_name,
             birthday: userModel.birthday,
@@ -72,7 +72,7 @@ exports.updateUserById = updateUserById;
 // Pasar PARANONID en User.model para NO hacerlo soft, *falla*
 const deleteUserById = (user_id) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const userDeletedRows = yield hms_model_1.User.destroy({
+        const userDeletedRows = yield user_model_1.User.destroy({
             where: {
                 user_id: user_id,
             }
