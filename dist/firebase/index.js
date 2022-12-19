@@ -32,7 +32,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.disableUser = exports.updateUser = exports.getAllUsers = exports.readUser = exports.createUser = void 0;
+exports.enableUser = exports.disableUser = exports.updateUser = exports.getAllUsers = exports.readUser = exports.createUser = void 0;
 const admin = __importStar(require("firebase-admin")); // npm install firebase-admin --save
 const mapToUser = (user) => {
     const customClaims = (user.customClaims || { role: "" });
@@ -61,7 +61,7 @@ const readUser = (uid) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.readUser = readUser;
 const getAllUsers = () => __awaiter(void 0, void 0, void 0, function* () {
-    const listOfUsers = yield admin.auth().listUsers(10);
+    const listOfUsers = yield admin.auth().listUsers(15);
     const users = listOfUsers.users.map(mapToUser);
     return users;
 });
@@ -80,3 +80,10 @@ const disableUser = (uid, disabled) => __awaiter(void 0, void 0, void 0, functio
     return `User ${uid} was succesfully disabled`;
 });
 exports.disableUser = disableUser;
+const enableUser = (uid, disabled) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = yield admin.auth().updateUser(uid, {
+        disabled
+    });
+    return `User ${uid} was succesfully enabled`;
+});
+exports.enableUser = enableUser;
