@@ -37,12 +37,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv_1 = __importDefault(require("dotenv"));
-// Loads .env file que incluye variables de entorno
+// Carga el .env file que incluye variables de entorno
 dotenv_1.default.config();
 const models_1 = require("./models");
 const admin = __importStar(require("firebase-admin")); // npm install firebase-admin --save
 const app_1 = __importDefault(require("./app"));
-admin.initializeApp(); // cargar las credenciales desde la variable de entorno de google
+admin.initializeApp(); // Para firebase => carga las credenciales desde la variable de entorno de google
 // poner generics <string> para que no dé un error de ambiguedad string|undefined
 const PORT = process.env.PORT;
 const DB_PASS = process.env.DB_PASS;
@@ -53,7 +53,7 @@ app_1.default.listen(PORT, () => __awaiter(void 0, void 0, void 0, function* () 
     try {
         const sequelize = (0, models_1.startSequelize)(DB_NAME, DB_PASS, DB_HOSTNAME, DB_USER);
         yield sequelize.sync(); // sincroniza metodos en sequelize con la DB en postgres
-        console.info('DB and Express server is up and running!!!!'); // ver esto en consola = funciona
+        console.info('DB and Express server is up and running <3'); // ver esto en consola = funciona
     }
     catch (error) {
         console.error(error);

@@ -20,7 +20,7 @@ app.listen(PORT, async () => {
     try {
         const sequelize = startSequelize(DB_NAME, DB_PASS, DB_HOSTNAME, DB_USER);
         await sequelize.sync(); // sincroniza metodos en sequelize con la DB en postgres
-        console.info('DB and Express server is up and running!!!!') // ver esto en consola = funciona
+        console.info('DB and Express server is up and running <3') // ver esto en consola = funciona
     } catch (error) {
         console.error(error);
         process.abort(); // para que no se quede corriendo el server si hay un error
