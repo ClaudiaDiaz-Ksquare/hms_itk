@@ -12,13 +12,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserRouter = void 0;
 const express_1 = require("express");
 const firebase_1 = require("../firebase");
+const user_repo_1 = require("../repository/user.repo");
 exports.UserRouter = (0, express_1.Router)();
-// ==================================  C R U D  ==================================
-// LIST - [GET]
-exports.UserRouter.get('/all', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    // verificar si están accediendo a la ruta /all
+// Si quisieramos autorizar a todos los usuarios, de una vez pasamos el middleware a todo con .use
+// UserRouter.use(isAuthorized)
+// Sino, meter el middleware isAuthorized() solo en ciertos endpoints que querramos que tengan autorización
+// ==================================  L C R U D  ==================================
+// LIST - [GET] all
+exports.UserRouter.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // verificar si están accediendo a la ruta para obtener todos los usuarios
     try {
-        const listedUsers = yield (0, firebase_1.getAllUsers)();
+        const listedUsers = yield (0, firebase_1.getAllUsers)(); // para firebase // paginatedList(2,0);// listAllUsers();
+        const listedUsersPsql = yield (0, user_repo_1.listAllUsers)(); // para postgres
         res.status(200).send({ listedUsers });
     }
     catch (error) {
@@ -26,6 +31,7 @@ exports.UserRouter.get('/all', (req, res) => __awaiter(void 0, void 0, void 0, f
     }
 }));
 // CREATE - [POST]
+// Este endpoint debe poder ser llamado por todo el mundo
 exports.UserRouter.post('/newUser', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // Agarrar la info desde lo que se metió al body
     const { displayName, email, password } = req.body;
@@ -35,9 +41,10 @@ exports.UserRouter.post('/newUser', (req, res) => __awaiter(void 0, void 0, void
     }
     // Checar que el rol sea adecuado
     try {
-        const userId = yield (0, firebase_1.createUser)(displayName, email, password, 'patient');
+        const userId = yield (0, firebase_1.createUser)(displayName, email, password, 'patient'); // para firebase
+        const user = yield (0, user_repo_1.createUserPsql)(userId, displayName, email, password, 'patient'); // para postgres
         res.status(201).send({
-            userId
+            user
         });
     }
     catch (error) {
@@ -45,12 +52,17 @@ exports.UserRouter.post('/newUser', (req, res) => __awaiter(void 0, void 0, void
     }
 }));
 // READ - [GET]
-exports.UserRouter.get('/:userID', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    // pasar el id del usuario a leer, 
-    const id = req.params['userID'];
+// Este endpoint solo debe poder ser llamado por el rol de admin y el usuario dueño de este recurso
+// UserRouter.get('/:userId', isAuthenticated, isAuthorized({ roles: ['admin'], allowSameUser: true }), async (req:Request, res: Response) => {
+exports.UserRouter.get('/:userId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // Dos formas de obtener el userId
+    const id = req.params['userId'];
+    // 2da forma
+    // const { uid } = res.locals;
     // verificar si existe el id
     try {
-        const fetchedUser = yield (0, firebase_1.readUser)(id);
+        const fetchedUser = yield (0, firebase_1.readUser)(id); // para firebase
+        const fetchedUserPsql = yield (0, user_repo_1.fetchUserById)(id); // para postgres
         res.status(200).send({ fetchedUser });
     }
     catch (error) {
@@ -58,9 +70,9 @@ exports.UserRouter.get('/:userID', (req, res) => __awaiter(void 0, void 0, void 
     }
 }));
 // UPDATE - [PUT]
-exports.UserRouter.put('/:userID', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.UserRouter.put('/:userId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // Pasar el id del usuario a actualizar 
-    const id = req.params['userID'];
+    const id = req.params['userId'];
     // const {id}  = req.params 
     // Agarrar la info desde lo que se metió al body
     const { displayName } = req.body;
@@ -73,7 +85,9 @@ exports.UserRouter.put('/:userID', (req, res) => __awaiter(void 0, void 0, void 
     }
     // verificar si existe el id
     try {
-        const updatedUser = yield (0, firebase_1.updateUser)(id, displayName);
+        const updatedUser = yield (0, firebase_1.updateUser)(id, displayName); // para firebase
+        const updatedUserPsql = yield (0, user_repo_1.updateUserById)(id, displayName); // para postgres
+        console.log(`Number of updated attributes: ${updatedUserPsql}`);
         res.status(200).send({ updatedUser });
     }
     catch (error) {
@@ -81,15 +95,34 @@ exports.UserRouter.put('/:userID', (req, res) => __awaiter(void 0, void 0, void 
     }
 }));
 // DELETE - [DELETE]
-exports.UserRouter.delete('/:userID', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = req.params['userID'];
-    const disable = true;
+// isAuthorized({ roles: ['patient'], allowSameUser: true })
+exports.UserRouter.delete('/:userId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const id = req.params['userId'];
+    const is_disabled = true;
     // verificar si existe el id
     try {
-        const disabledUser = yield (0, firebase_1.disableUser)(id, disable);
+        const disabledUser = yield (0, firebase_1.disableUser)(id, is_disabled); // para firebase
+        const disabledUserPsql = yield (0, user_repo_1.deleteUserById)(id); // para postgres
+        console.log(`Number of users deleted: ${disabledUserPsql}`);
         res.status(200).send({ disabledUser });
     }
     catch (error) {
         res.status(400).send({ error: "Couldn't disable user. Verify the requested user ID" });
+    }
+}));
+// UNDO DELETE - [DELETE]
+// isAuthorized({ roles: ['patient'], allowSameUser: true })
+// Create an endpoint that can modify the is_active property from the User model back to true. 
+exports.UserRouter.delete('/:userId/undo', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const id = req.params['userId'];
+    const is_disabled = false;
+    try {
+        const enabledUser = yield (0, firebase_1.enableUser)(id, is_disabled); // para firebase
+        const enabledUserPsql = yield (0, user_repo_1.undoDeleteUserById)(id); // para postgres
+        console.log(`Number of users re-activated: ${enabledUserPsql}`);
+        res.status(200).send({ enabledUser });
+    }
+    catch (error) {
+        res.status(400).send({ error: "Couldn't enable user. Verify the requested user ID" });
     }
 }));
