@@ -1,6 +1,7 @@
 import * as admin from "firebase-admin"; // npm install firebase-admin --save
 
-type Role = "patient" | "doctor" | "admin";
+
+export type Role = "patient" | "doctor" | "admin";
 
 // Cuenta admin
 // admin@test.com / toor123
@@ -25,12 +26,7 @@ const mapToUser = (user: admin.auth.UserRecord) => {
     }
 }
 
-export const createUser = async(
-    displayName: string,
-    email: string,
-    password: string,
-    role: Role
-) => {
+export const createUser = async(displayName: string, email: string, password: string, role: Role) => {
     const { uid } = await admin.auth().createUser({
         displayName,
         email,
@@ -50,7 +46,7 @@ export const readUser = async (uid:string) => {
 }
 
 export const getAllUsers = async () => {
-    const listOfUsers = await admin.auth().listUsers(10);
+    const listOfUsers = await admin.auth().listUsers(15);
     const users = listOfUsers.users.map(mapToUser);
 
     return users;
@@ -71,4 +67,12 @@ export const disableUser = async (uid:string, disabled: boolean) => {
     })
 
     return `User ${uid} was succesfully disabled`
+}
+
+export const enableUser = async (uid:string, disabled: boolean) => {
+    const user = await admin.auth().updateUser(uid, {
+        disabled
+    })
+
+    return `User ${uid} was succesfully enabled`
 }
