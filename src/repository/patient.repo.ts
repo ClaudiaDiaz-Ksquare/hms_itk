@@ -1,46 +1,18 @@
-import { InferAttributes } from "sequelize";
-import {  Patient } from "../models/patient.model";
+import { DateOnlyDataType } from "sequelize";
+import { Patient, Gender } from "../models/patient.model";
 
 
-
-export const paginatedList = async(page_limit:number, page_offset:number) =>{
-    try {
-        const res = await Patient.findAll({
-            attributes: ['id', 'sex', 'birthday'],
-            limit: page_limit,
-            offset :page_offset,
-            where: {
-                is_active: true
-            }
-        })
-        return res
-    } catch (error) {
-        console.error(error)
-        return null
-    }
-}
-
-
-export const listAllPatients = async (is_active: boolean) => {
-    const res = await Patient.findAll({
-        attributes: ['id', 'sex', 'birthday'], // SELECT id From "Todos" WHERE is_completed = true;
-        where: {
-            is_active: true
-        }
-    })
-    return res;
-}
-
-// Create operation 
-export const createPatient = async (patientModel: InferAttributes<Patient>) => {
+// Create operation -> sugiere los parámetros al usar la función
+export const createPatient = async (user_id: string, gender: Gender, birthday: DateOnlyDataType, has_covid_vaccine: boolean) => {
     try {
         const patient = await Patient.create({
-            birthday: patientModel.birthday,
-            sex: patientModel.sex,
-            is_active: patientModel.is_active,
+            user_id,
+            gender,
+            birthday,
+            has_covid_vaccine,
         })
 
-        return patient;
+        return patient.id;
     } catch (error) {
         console.error(error);
         return null
@@ -48,7 +20,7 @@ export const createPatient = async (patientModel: InferAttributes<Patient>) => {
     }
 }
 
-
+// READ Operation
 export const fetchPatientById = async (id: number) => {
     try {
         const fetchedPx = await Patient.findByPk(id);
@@ -62,17 +34,17 @@ export const fetchPatientById = async (id: number) => {
 }
 
 
-export const updatePatientById = async (id: number, patientModel: InferAttributes<Patient>) => {
+// UPDATE operation -> pero no sugiere params por el infer
+export const updatePatientById = async (id: number, user_id:string, blood_type: string, risk_factors: string) => {
 
     try {
         const updatedPx = await Patient.update({
-            // sex: patientModel.sex,
-            // birthday: patientModel.birthday,
-            has_covid_vaccine: patientModel.has_covid_vaccine,
-            risk_factors: patientModel.risk_factors,
+            blood_type,
+            risk_factors,
         }, {
             where: {
-                id: id
+                id,
+                user_id,
             }
         })
         
@@ -84,18 +56,17 @@ export const updatePatientById = async (id: number, patientModel: InferAttribute
 }
 
 
-export const deletePatientById = async (id: number) => {
-    try {
-        const inactivePx = await Patient.update({
-            is_active: false
-        }, {
-            where: {
-                id: id
-            }
-        })
-        return inactivePx;
-    } catch (error) {
-        console.error(error);
-        return null;
-    }
-}
+// // DELETE 
+// export const deletePatientById = async (id: number) => {
+//     try {
+//         const deletedPx = await Patient.destroy({
+//              where: {
+//                 id: id
+//             }
+//         })
+//         return deletedPx;
+//     } catch (error) {
+//         console.error(error);
+//         return null;
+//     }
+// }

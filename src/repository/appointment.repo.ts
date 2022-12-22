@@ -1,15 +1,19 @@
-//Create a series of endpoints that need to LIST, Read, Create and Delete appointments 
 
-import { InferAttributes } from "sequelize";
+import { CreationOptional, InferAttributes } from "sequelize";
 import {  Appointment  } from "../models/appointment.model";
 
-// LIST Appointments
-export const paginatedList = async(page_limit:number, page_offset:number) =>{
+
+// =========================================  P A T I E N T S  =========================================
+// Create a series of endpoints that need to LIST, Read, Create and Delete appointments 
+
+
+// LIST Appointments with pagination
+export const listAllAppointments = async(limit:number, offset:number) =>{
     try {
         const res = await Appointment.findAll({
-            attributes: ['id', 'patient_id', 'doctor_id', 'date_time'],
-            limit: page_limit,
-            offset: page_offset,
+            attributes: ['id', 'patient_id', 'doctor_id', 'date', 'description', 'is_cancelled'],
+            limit: limit,
+            offset: offset,
             where: {
                 is_cancelled: false
             }
@@ -22,50 +26,85 @@ export const paginatedList = async(page_limit:number, page_offset:number) =>{
 }
 
 
-export const listAppointment  = async () => {
-    const res = await Appointment.findAll({
-        attributes: ['id', 'patient_id', 'date_time'], 
-        where: {
-            is_cancelled: false
-        }
-    })
-    return res;
-}
-
-// CREATE
-export const createAppointment = async (patient_id: string, doctor_id: string, date_time: Date, apptModel: InferAttributes<Appointment>) => {
+// CREATE operation
+export const createAppointment = async (patient_id: number, doctor_id: number, date: Date, description: CreationOptional<string>) => {
     try {
-        const AppointmentResult = await Appointment.create({
+        const createdAppointment = await Appointment.create({
             patient_id,
             doctor_id,
-            date_time,
+            date,
+            description,
         })
 
-
-        return AppointmentResult;
+        return createdAppointment;
     } catch (error) {
         console.error(error);
         return null
-        
     }
 }
 
-// READ (with filters)
-export const fetchAppointmentById = async (id: number) => {
+// READ operation
+export const fetchAppointmentById = async (appointment_id: number) => {
     try {
-        const fetchedAppointment = await Appointment.findByPk(id);
-        
+        const fetchedAppointment = await Appointment.findOne({
+            where: {
+              id: appointment_id,
+              is_cancelled: false,
+            },
+          });
         return fetchedAppointment;
     } catch (error) {
         console.error(error);
-
         return null;
     }
 }
 
-export const fetchAppointmentByDoctorId = async (doctor_id: string) => {
+
+// UPDATE operation
+export const updateAppointmentDateById = async (id: number, date: Date) => {
+
+    try {
+        const updatedAppointment = await Appointment.update({
+            date,
+        }, {
+            where: {
+                id,
+            }
+        })
+        
+        return updatedAppointment;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+}
+
+
+// DELETE operation
+export const disableAppointmentById = async (id: number) => {
+    try {
+        const cancelledAppointment = await Appointment.update({
+            is_cancelled: true
+        }, {
+            where: {
+                id,
+            }
+        })
+        return cancelledAppointment;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+}
+
+// // =========================================  F I L T E R S  =========================================
+
+
+export const fetchAppointmentsByDoctorId = async (doctor_id: number, limit:number, offset:number) => {
     try {
         const fetchedAppointment = await Appointment.findAll({
+            limit: limit,
+            offset: offset,
             where: {
                 doctor_id,
             }
@@ -74,15 +113,16 @@ export const fetchAppointmentByDoctorId = async (doctor_id: string) => {
 
     } catch (error) {
         console.error(error);
-
         return null;
     }
 }
 
 
-export const fetchAppointmentByPatientId = async (patient_id: string) => {
+export const fetchAppointmentsByPatientId = async (patient_id: number, limit:number, offset:number) => {
     try {
         const fetchedAppointment = await Appointment.findAll({
+            limit: limit,
+            offset: offset,
             where: {
                 patient_id,
             }
@@ -91,95 +131,40 @@ export const fetchAppointmentByPatientId = async (patient_id: string) => {
 
     } catch (error) {
         console.error(error);
-
         return null;
     }
 }
 
 
-export const fetchAppointmentByDate = async (chosenDate: Date) => {
+
+export const fetchAppointmentsByDate = async (chosenDate: Date, limit:number, offset:number) => {
     try {
         const fetchedAppointment = await Appointment.findAll({
+            limit: limit,
+            offset: offset,
             where: {
-                date_time: chosenDate,
+                date: chosenDate,
             }
         });
         return fetchedAppointment;
 
     } catch (error) {
         console.error(error);
-
         return null;
     }
 }
 
-export const fetchAppointmentByIsCancelled = async () => {
+export const fetchAppointmentsByIsCancelled = async (limit:number, offset:number) => {
     try {
         const fetchedCancelledAppointments = await Appointment.findAll({
+            limit: limit,
+            offset: offset,
             where: {
                 is_cancelled: true,
             }
         });
         return fetchedCancelledAppointments;
 
-    } catch (error) {
-        console.error(error);
-
-        return null;
-    }
-}
-
-
-// UPDATE 
-export const updateAppointmentById = async (id: number, ApptModel: InferAttributes<Appointment>) => {
-
-    try {
-        const updatedAppt = await Appointment.update({
-            date_time: ApptModel.date_time,
-        }, {
-            where: {
-                id,
-            }
-        })
-        
-        return updatedAppt;
-    } catch (error) {
-        console.error(error);
-        return null;
-    }
-
-
-}
-
-
-// DELETE
-export const deleteAppointmentById = async (id: number) => {
-    try {
-        const cancelledAppt = await Appointment.update({
-            is_cancelled: true
-        }, {
-            where: {
-                id,
-            }
-        })
-        return cancelledAppt;
-    } catch (error) {
-        console.error(error);
-        return null;
-    }
-}
-
-
-export const undoDeleteAppointmentById = async (id: number) => {
-    try {
-        const undoCancelledAppt = await Appointment.update({
-            is_cancelled: false
-        }, {
-            where: {
-                id,
-            }
-        })
-        return undoCancelledAppt;
     } catch (error) {
         console.error(error);
         return null;

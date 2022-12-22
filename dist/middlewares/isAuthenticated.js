@@ -41,6 +41,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.isAuthenticated = void 0;
 const admin = __importStar(require("firebase-admin"));
 // Esto es un middleware -> SOLO acepta estos 3 params: req res next
+// Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6ImFmZjFlNDJlNDE0M2I4MTQxM2VjMTI1MzQwOTcwODUxZThiNDdiM2YiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiQ2xhdWRpYSIsInJvbGUiOiJwYXRpZW50IiwiaXNzIjoiaHR0cHM6Ly9zZWN1cmV0b2tlbi5nb29nbGUuY29tL2htcy1pdGstNjA2MjEiLCJhdWQiOiJobXMtaXRrLTYwNjIxIiwiYXV0aF90aW1lIjoxNjcxNDkwMzQ4LCJ1c2VyX2lkIjoiakNNTUgzdmJuOGR2TTJGR0lWSVR6SDgzWWZlMiIsInN1YiI6ImpDTU1IM3Zibjhkdk0yRkdJVklUekg4M1lmZTIiLCJpYXQiOjE2NzE0OTAzNDgsImV4cCI6MTY3MTQ5Mzk0OCwiZW1haWwiOiJjbGF1ZGlhQGhvdG1haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImNsYXVkaWFAaG90bWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.L28egOlf95JfJ-b7Yx4gB0HceLKDLtY3CcddF9padf2e3PMRE4vbQfX5Q9llU8v3nEbmaIkbtRFlwLNsxypLhCFtJneu43pHm0rbIy2PGnYjvTzj-QkA9Cxp2j6wjgyhPuoRLbBT03lKMPIera7hwYYlT8j6nsNQFnKGU4CsLYMd9VU-gUuPQGMXLOBa9Hwftl28pJaAiHghXPP0i-pWqmiLEosdw6ELg4b9asY9723Ge-O0jpYLgDQ3gC0kEKDRlenFGKfMkzSY69bGuwghmzI1pNkU3nFLUlm7j9_HLyyzE-MX_t9tVk_HQ2B3MRVTqv_kkkSHfQIeZgmZINrO5A
+// Auth 4. Create a middleware that will check if a user is authenticated and what role it has 
 const isAuthenticated = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     // No authorization header
     const { authorization } = req.headers;

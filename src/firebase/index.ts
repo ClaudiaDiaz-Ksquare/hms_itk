@@ -1,10 +1,10 @@
 import * as admin from "firebase-admin"; // npm install firebase-admin --save
 
-
-export type Role = "patient" | "doctor" | "admin";
+import { Role } from "../models/user.model"
+// export type Role = "patient" | "doctor" | "admin";
 
 // Cuenta admin
-// admin@test.com / toor123
+// hms@admin.com / root123
 
 interface User {
     uid: string;
@@ -46,32 +46,33 @@ export const readUser = async (uid:string) => {
 }
 
 export const getAllUsers = async () => {
-    const listOfUsers = await admin.auth().listUsers(15);
+    const listOfUsers = await admin.auth().listUsers(20);
     const users = listOfUsers.users.map(mapToUser);
 
     return users;
 }
 
-export const updateUser = async (uid:string, displayName: string) => {
+export const updateUser = async (uid:string, displayName: string, email: string, password: string) => {
     const user = await admin.auth().updateUser(uid, {
-        displayName
+        displayName,
+        email,
+        password
     })
-
-
+    
     return mapToUser(user);
 }
 
-export const disableUser = async (uid:string, disabled: boolean) => {
+export const disableUser = async (uid:string) => {
     const user = await admin.auth().updateUser(uid, {
-        disabled
+        disabled: true,
     })
 
     return `User ${uid} was succesfully disabled`
 }
 
-export const enableUser = async (uid:string, disabled: boolean) => {
+export const enableUser = async (uid:string) => {
     const user = await admin.auth().updateUser(uid, {
-        disabled
+        disabled: false,
     })
 
     return `User ${uid} was succesfully enabled`

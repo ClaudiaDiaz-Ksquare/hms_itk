@@ -1,5 +1,4 @@
 "use strict";
-//Create a series of endpoints that need to LIST, Read, Create and Delete appointments 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -10,15 +9,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.undoDeleteAppointmentById = exports.deleteAppointmentById = exports.updateAppointmentById = exports.fetchAppointmentByIsCancelled = exports.fetchAppointmentByDate = exports.fetchAppointmentByPatientId = exports.fetchAppointmentByDoctorId = exports.fetchAppointmentById = exports.createAppointment = exports.listAppointment = exports.paginatedList = void 0;
+exports.fetchAppointmentsByIsCancelled = exports.fetchAppointmentsByDate = exports.fetchAppointmentsByPatientId = exports.fetchAppointmentsByDoctorId = exports.disableAppointmentById = exports.updateAppointmentDateById = exports.fetchAppointmentById = exports.createAppointment = exports.listAllAppointments = void 0;
 const appointment_model_1 = require("../models/appointment.model");
-// LIST Appointments
-const paginatedList = (page_limit, page_offset) => __awaiter(void 0, void 0, void 0, function* () {
+// =========================================  P A T I E N T S  =========================================
+// Create a series of endpoints that need to LIST, Read, Create and Delete appointments 
+// LIST Appointments with pagination
+const listAllAppointments = (limit, offset) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const res = yield appointment_model_1.Appointment.findAll({
-            attributes: ['id', 'patient_id', 'doctor_id', 'date_time'],
-            limit: page_limit,
-            offset: page_offset,
+            attributes: ['id', 'patient_id', 'doctor_id', 'date', 'description', 'is_cancelled'],
+            limit: limit,
+            offset: offset,
             where: {
                 is_cancelled: false
             }
@@ -30,26 +31,17 @@ const paginatedList = (page_limit, page_offset) => __awaiter(void 0, void 0, voi
         return null;
     }
 });
-exports.paginatedList = paginatedList;
-const listAppointment = () => __awaiter(void 0, void 0, void 0, function* () {
-    const res = yield appointment_model_1.Appointment.findAll({
-        attributes: ['id', 'patient_id', 'date_time'],
-        where: {
-            is_cancelled: false
-        }
-    });
-    return res;
-});
-exports.listAppointment = listAppointment;
-// CREATE
-const createAppointment = (patient_id, doctor_id, date_time, apptModel) => __awaiter(void 0, void 0, void 0, function* () {
+exports.listAllAppointments = listAllAppointments;
+// CREATE operation
+const createAppointment = (patient_id, doctor_id, date, description) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const AppointmentResult = yield appointment_model_1.Appointment.create({
+        const createdAppointment = yield appointment_model_1.Appointment.create({
             patient_id,
             doctor_id,
-            date_time,
+            date,
+            description,
         });
-        return AppointmentResult;
+        return createdAppointment;
     }
     catch (error) {
         console.error(error);
@@ -57,10 +49,15 @@ const createAppointment = (patient_id, doctor_id, date_time, apptModel) => __awa
     }
 });
 exports.createAppointment = createAppointment;
-// READ (with filters)
-const fetchAppointmentById = (id) => __awaiter(void 0, void 0, void 0, function* () {
+// READ operation
+const fetchAppointmentById = (appointment_id) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const fetchedAppointment = yield appointment_model_1.Appointment.findByPk(id);
+        const fetchedAppointment = yield appointment_model_1.Appointment.findOne({
+            where: {
+                id: appointment_id,
+                is_cancelled: false,
+            },
+        });
         return fetchedAppointment;
     }
     catch (error) {
@@ -69,9 +66,48 @@ const fetchAppointmentById = (id) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.fetchAppointmentById = fetchAppointmentById;
-const fetchAppointmentByDoctorId = (doctor_id) => __awaiter(void 0, void 0, void 0, function* () {
+// UPDATE operation
+const updateAppointmentDateById = (id, date) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const updatedAppointment = yield appointment_model_1.Appointment.update({
+            date,
+        }, {
+            where: {
+                id,
+            }
+        });
+        return updatedAppointment;
+    }
+    catch (error) {
+        console.error(error);
+        return null;
+    }
+});
+exports.updateAppointmentDateById = updateAppointmentDateById;
+// DELETE operation
+const disableAppointmentById = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const cancelledAppointment = yield appointment_model_1.Appointment.update({
+            is_cancelled: true
+        }, {
+            where: {
+                id,
+            }
+        });
+        return cancelledAppointment;
+    }
+    catch (error) {
+        console.error(error);
+        return null;
+    }
+});
+exports.disableAppointmentById = disableAppointmentById;
+// // =========================================  F I L T E R S  =========================================
+const fetchAppointmentsByDoctorId = (doctor_id, limit, offset) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const fetchedAppointment = yield appointment_model_1.Appointment.findAll({
+            limit: limit,
+            offset: offset,
             where: {
                 doctor_id,
             }
@@ -83,10 +119,12 @@ const fetchAppointmentByDoctorId = (doctor_id) => __awaiter(void 0, void 0, void
         return null;
     }
 });
-exports.fetchAppointmentByDoctorId = fetchAppointmentByDoctorId;
-const fetchAppointmentByPatientId = (patient_id) => __awaiter(void 0, void 0, void 0, function* () {
+exports.fetchAppointmentsByDoctorId = fetchAppointmentsByDoctorId;
+const fetchAppointmentsByPatientId = (patient_id, limit, offset) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const fetchedAppointment = yield appointment_model_1.Appointment.findAll({
+            limit: limit,
+            offset: offset,
             where: {
                 patient_id,
             }
@@ -98,12 +136,14 @@ const fetchAppointmentByPatientId = (patient_id) => __awaiter(void 0, void 0, vo
         return null;
     }
 });
-exports.fetchAppointmentByPatientId = fetchAppointmentByPatientId;
-const fetchAppointmentByDate = (chosenDate) => __awaiter(void 0, void 0, void 0, function* () {
+exports.fetchAppointmentsByPatientId = fetchAppointmentsByPatientId;
+const fetchAppointmentsByDate = (chosenDate, limit, offset) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const fetchedAppointment = yield appointment_model_1.Appointment.findAll({
+            limit: limit,
+            offset: offset,
             where: {
-                date_time: chosenDate,
+                date: chosenDate,
             }
         });
         return fetchedAppointment;
@@ -113,10 +153,12 @@ const fetchAppointmentByDate = (chosenDate) => __awaiter(void 0, void 0, void 0,
         return null;
     }
 });
-exports.fetchAppointmentByDate = fetchAppointmentByDate;
-const fetchAppointmentByIsCancelled = () => __awaiter(void 0, void 0, void 0, function* () {
+exports.fetchAppointmentsByDate = fetchAppointmentsByDate;
+const fetchAppointmentsByIsCancelled = (limit, offset) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const fetchedCancelledAppointments = yield appointment_model_1.Appointment.findAll({
+            limit: limit,
+            offset: offset,
             where: {
                 is_cancelled: true,
             }
@@ -128,57 +170,4 @@ const fetchAppointmentByIsCancelled = () => __awaiter(void 0, void 0, void 0, fu
         return null;
     }
 });
-exports.fetchAppointmentByIsCancelled = fetchAppointmentByIsCancelled;
-// UPDATE 
-const updateAppointmentById = (id, ApptModel) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const updatedAppt = yield appointment_model_1.Appointment.update({
-            date_time: ApptModel.date_time,
-        }, {
-            where: {
-                id,
-            }
-        });
-        return updatedAppt;
-    }
-    catch (error) {
-        console.error(error);
-        return null;
-    }
-});
-exports.updateAppointmentById = updateAppointmentById;
-// DELETE
-const deleteAppointmentById = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const cancelledAppt = yield appointment_model_1.Appointment.update({
-            is_cancelled: true
-        }, {
-            where: {
-                id,
-            }
-        });
-        return cancelledAppt;
-    }
-    catch (error) {
-        console.error(error);
-        return null;
-    }
-});
-exports.deleteAppointmentById = deleteAppointmentById;
-const undoDeleteAppointmentById = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const undoCancelledAppt = yield appointment_model_1.Appointment.update({
-            is_cancelled: false
-        }, {
-            where: {
-                id,
-            }
-        });
-        return undoCancelledAppt;
-    }
-    catch (error) {
-        console.error(error);
-        return null;
-    }
-});
-exports.undoDeleteAppointmentById = undoDeleteAppointmentById;
+exports.fetchAppointmentsByIsCancelled = fetchAppointmentsByIsCancelled;

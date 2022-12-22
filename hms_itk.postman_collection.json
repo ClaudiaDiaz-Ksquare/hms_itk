@@ -1,0 +1,1693 @@
+{
+	"info": {
+		"_postman_id": "e54a5328-a443-4cd4-aabf-8595be426d9e",
+		"name": "hms_itk",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21852354"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "List All Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5001/users/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"users",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "List All Users",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5001/users/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5001",
+									"path": [
+										"users",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1174"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"496-e1RqePAgCGXKC8WKEU3diBQ2ti0\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Dec 2022 11:36:24 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"listedUsers\": [\n        {\n            \"uid\": \"3VAox6fXlrhLQfDjrijNom4zttQ2\",\n            \"email\": \"dannae@hotmail.com\",\n            \"userName\": \"Dannae Diaz\",\n            \"role\": \"patient\",\n            \"isDisabled\": false\n        },\n        {\n            \"uid\": \"5oaBGorOFvY9U5jlnwIlrRema2t2\",\n            \"email\": \"hms@admin.com\",\n            \"userName\": \"hmsadmin\",\n            \"role\": \"admin\",\n            \"isDisabled\": false\n        },\n        {\n            \"uid\": \"DGynqNBY9sfKJa5zHRymnQ4StuW2\",\n            \"email\": \"john@hotmail.com\",\n            \"userName\": \"John Appleseed\",\n            \"role\": \"patient\",\n            \"isDisabled\": false\n        },\n        {\n            \"uid\": \"MTShxnJ3YHbyuJWwKIhKZFtP4Ot1\",\n            \"email\": \"johny@hotmail.com\",\n            \"userName\": \"Johny Appleseed\",\n            \"role\": \"patient\",\n            \"isDisabled\": false\n        },\n        {\n            \"uid\": \"Mmr7PB5ViOcYdc821WFR8LX5pM23\",\n            \"email\": \"dralejos@hotmail.com\",\n            \"userName\": \"Ricardo Alejos\",\n            \"role\": \"doctor\",\n            \"isDisabled\": false\n        },\n        {\n            \"uid\": \"Plx8IlRUH5XPr5IUJHmUlPDdWmb2\",\n            \"email\": \"walt@hotmail.com\",\n            \"userName\": \"Walter White\",\n            \"role\": \"patient\",\n            \"isDisabled\": false\n        },\n        {\n            \"uid\": \"QgIdppn0fpU9JVfycxZluWcsoow2\",\n            \"email\": \"jane@hotmail.com\",\n            \"userName\": \"Jane Doe\",\n            \"role\": \"patient\",\n            \"isDisabled\": false\n        },\n        {\n            \"uid\": \"d0kf8UeLczXqX0sD8EnPlD4Oqp02\",\n            \"email\": \"tobedisabled@hotmail.com\",\n            \"userName\": \"Test disabling\",\n            \"role\": \"patient\",\n            \"isDisabled\": true\n        },\n        {\n            \"uid\": \"dLdsPq1crBb6VmKrnFuDhLZU9lS2\",\n            \"email\": \"dradua@hotmail.com\",\n            \"userName\": \"Dua Lipa\",\n            \"role\": \"doctor\",\n            \"isDisabled\": false\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Create User Px",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"displayName\": \"Walter White\",\n    \"email\": \"walt@hotmail.com\",\n    \"password\": \"walt123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5001/users/new/patient",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"users",
+								"new",
+								"patient"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User Dr",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"displayName\": \"Dua Lipa\",\n    \"email\": \"dradua@hotmail.com\",\n    \"password\": \"dua123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5001/users/new/doctor",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"users",
+								"new",
+								"doctor"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Read Users",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth-px-1}}",
+								"description": "Auth for px 1",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "{{auth-px-2}}",
+								"description": "Auth for px 2",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{auth-dr-1}}",
+								"description": "Auth for dr 1",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "http://localhost:5001/users/QgIdppn0fpU9JVfycxZluWcsoow2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"users",
+								"QgIdppn0fpU9JVfycxZluWcsoow2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User Px 2",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{auth-px-2}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth-px-2}}",
+								"description": "Auth for px 2",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "{{auth-px-1}}",
+								"description": "Auth for px 1",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "   {\n    \"displayName\": \"Jane Doe\",\n    \"email\": \"jane@hotmail.com\",\n    \"password\": \"jane123\"\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5001/users/QgIdppn0fpU9JVfycxZluWcsoow2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"users",
+								"QgIdppn0fpU9JVfycxZluWcsoow2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Px",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth-px-3}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:5001/users/DGynqNBY9sfKJa5zHRymnQ4StuW2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"users",
+								"DGynqNBY9sfKJa5zHRymnQ4StuW2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Patients",
+			"item": [
+				{
+					"name": "Add Px details",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth-px-1}}",
+								"description": "Auth for px 1",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "{{auth-px-2}}",
+								"description": "Auth for px 2",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "{{auth-px-3}}",
+								"description": "Auth for px 3",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"gender\": \"male\",\n    \"birthday\": \"1975-12-15\",\n    \"has_covid_vaccine\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5001/patients/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"patients",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Px 2",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth-px-2}}",
+								"description": "Auth for px 2",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{auth-px-1}}",
+								"description": "Auth for px 1",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"blood_type\": \"O+\",\n    \"risk_factors\": \"Hipertension\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5001/patients/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"patients",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Read Px details",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth-px-2}}",
+								"description": "Auth for px 2",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{auth-px-1}}",
+								"description": "Auth for px 1",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5001/patients/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"patients",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Generate Px1 Token",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"dannae@hotmail.com\",\n    \"password\": \"dannae123\",\n    \"returnSecureToken\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyBX808q3CdRWE0OY_8lyHsfi6VaoDdJBY0",
+							"protocol": "https",
+							"host": [
+								"www",
+								"googleapis",
+								"com"
+							],
+							"path": [
+								"identitytoolkit",
+								"v3",
+								"relyingparty",
+								"verifyPassword"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "AIzaSyBX808q3CdRWE0OY_8lyHsfi6VaoDdJBY0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Generate Px2 Token",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"jane@hotmail.com\",\n    \"password\": \"jane123\",\n    \"returnSecureToken\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyBX808q3CdRWE0OY_8lyHsfi6VaoDdJBY0",
+							"protocol": "https",
+							"host": [
+								"www",
+								"googleapis",
+								"com"
+							],
+							"path": [
+								"identitytoolkit",
+								"v3",
+								"relyingparty",
+								"verifyPassword"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "AIzaSyBX808q3CdRWE0OY_8lyHsfi6VaoDdJBY0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Generate Px3 Token",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"john@hotmail.com\",\n    \"password\": \"john123\",\n    \"returnSecureToken\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyBX808q3CdRWE0OY_8lyHsfi6VaoDdJBY0",
+							"protocol": "https",
+							"host": [
+								"www",
+								"googleapis",
+								"com"
+							],
+							"path": [
+								"identitytoolkit",
+								"v3",
+								"relyingparty",
+								"verifyPassword"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "AIzaSyBX808q3CdRWE0OY_8lyHsfi6VaoDdJBY0"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Appointments",
+			"item": [
+				{
+					"name": "Create Appointments",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth-px-1}}",
+								"description": "Auth px 1",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{auth-px-2}}",
+								"description": "Auth px 2",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"doctor_id\": 1,\n    \"date\": \"2023-05-07\",\n    \"description\": \"New meds\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5001/appointments/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"appointments",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Px Appointments",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth-px-1}}",
+								"description": "Auth px 1",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "{{auth-px-2}}",
+								"description": "Auth px 2",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5001/appointments/patient/2/?limit=2&offset=0",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"appointments",
+								"patient",
+								"2",
+								""
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "2"
+								},
+								{
+									"key": "offset",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Dr Appointments",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth-dr-1}}",
+								"description": "Auth dr 1",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{auth-dr-2}}",
+								"description": "Auth dr 2",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5001/appointments/doctor/2/?limit=2&offset=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"appointments",
+								"doctor",
+								"2",
+								""
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "2"
+								},
+								{
+									"key": "offset",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Date",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth-dr-1}}",
+								"description": "Auth dr 1",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "{{auth-dr-2}}",
+								"description": "Auth dr 2",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"date\": \"2024-12-10\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5001/appointments/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"appointments",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Filter date",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth-dr-1}}",
+								"description": "Auth dr 1",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "{{auth-dr-2}}",
+								"description": "Auth dr 2",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:5001/appointments/filter/byDate/2023-05-07?limit=2&offset=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"appointments",
+								"filter",
+								"byDate",
+								"2023-05-07"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "2"
+								},
+								{
+									"key": "offset",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Doctors",
+			"item": [
+				{
+					"name": "Add Dr details",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth-dr-1}}",
+								"description": "Auth for dr 1",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "{{auth-dr-2}}",
+								"description": "Auth for dr 2",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"university\": \"Harvard\",\n    \"license_num\": \"67890\", \n    \"specialty\": \"Pediatrics\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5001/doctors/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"doctors",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Read Dr details",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth-dr-1}}",
+								"description": "Auth for dr 1",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{auth-dr-2}}",
+								"description": "Auth for dr 2",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5001/doctors/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"doctors",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Generate Dr1 Token",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"dralejos@hotmail.com\",\n    \"password\": \"rich123\",\n    \"returnSecureToken\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyBX808q3CdRWE0OY_8lyHsfi6VaoDdJBY0",
+							"protocol": "https",
+							"host": [
+								"www",
+								"googleapis",
+								"com"
+							],
+							"path": [
+								"identitytoolkit",
+								"v3",
+								"relyingparty",
+								"verifyPassword"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "AIzaSyBX808q3CdRWE0OY_8lyHsfi6VaoDdJBY0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Generate Dr2 Token",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"dradua@hotmail.com\",\n    \"password\": \"dua123\",\n    \"returnSecureToken\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyBX808q3CdRWE0OY_8lyHsfi6VaoDdJBY0",
+							"protocol": "https",
+							"host": [
+								"www",
+								"googleapis",
+								"com"
+							],
+							"path": [
+								"identitytoolkit",
+								"v3",
+								"relyingparty",
+								"verifyPassword"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "AIzaSyBX808q3CdRWE0OY_8lyHsfi6VaoDdJBY0"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Activate User",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5001/users/activate/DGynqNBY9sfKJa5zHRymnQ4StuW2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"users",
+								"activate",
+								"DGynqNBY9sfKJa5zHRymnQ4StuW2"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Activate User",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5001/users/activate/DGynqNBY9sfKJa5zHRymnQ4StuW2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5001",
+									"path": [
+										"users",
+										"activate",
+										"DGynqNBY9sfKJa5zHRymnQ4StuW2"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "90"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"5a-vokLDhQOWtq2pf0AVznkdCPm0Dk\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Dec 2022 11:37:46 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Nothing to do here, this account is already active. Try a different user id.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "List All ppointments",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5001/appointments/all/?limit=4&offset=0",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"appointments",
+								"all",
+								""
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "4"
+								},
+								{
+									"key": "offset",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "List All ppointments",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5001/appointments/all/?limit=4&offset=0",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5001",
+									"path": [
+										"appointments",
+										"all",
+										""
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "4"
+										},
+										{
+											"key": "offset",
+											"value": "0"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "537"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"219-NUJh5Q55pD0Meazxo0lS210WJz4\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Dec 2022 11:21:28 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"paginatedAppointments\": [\n        {\n            \"id\": 1,\n            \"patient_id\": 1,\n            \"doctor_id\": 1,\n            \"date\": \"2022-12-20T00:00:00.000Z\",\n            \"description\": \"Knee surgery follow up\",\n            \"is_cancelled\": false\n        },\n        {\n            \"id\": 3,\n            \"patient_id\": 1,\n            \"doctor_id\": 1,\n            \"date\": \"2023-01-02T00:00:00.000Z\",\n            \"description\": \"Knee surgery follow up\",\n            \"is_cancelled\": false\n        },\n        {\n            \"id\": 4,\n            \"patient_id\": 2,\n            \"doctor_id\": 2,\n            \"date\": \"2023-01-02T00:00:00.000Z\",\n            \"description\": \"Covid checkup\",\n            \"is_cancelled\": false\n        },\n        {\n            \"id\": 6,\n            \"patient_id\": 1,\n            \"doctor_id\": 2,\n            \"date\": \"2023-05-07T00:00:00.000Z\",\n            \"description\": \"Covid checkup\",\n            \"is_cancelled\": false\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Filter Px Appointments",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5001/appointments/filter/byPatientId/1/?limit=10&offset=0",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"appointments",
+								"filter",
+								"byPatientId",
+								"1",
+								""
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "offset",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Filter Px Appointments",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5001/appointments/filter/byPatientId/1/?limit=10&offset=0",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5001",
+									"path": [
+										"appointments",
+										"filter",
+										"byPatientId",
+										"1",
+										""
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "10"
+										},
+										{
+											"key": "offset",
+											"value": "0"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1449"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"5a9-8weiz+gig97wOvyQeCEzNIkNGrw\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Dec 2022 11:28:28 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"paginatedAppointments\": [\n        {\n            \"id\": 1,\n            \"patient_id\": 1,\n            \"doctor_id\": 1,\n            \"date\": \"2022-12-20T00:00:00.000Z\",\n            \"description\": \"Knee surgery follow up\",\n            \"is_cancelled\": false,\n            \"createdAt\": \"2022-12-22T10:09:16.787Z\",\n            \"updatedAt\": \"2022-12-22T10:09:16.787Z\",\n            \"PatientId\": null,\n            \"DoctorId\": null\n        },\n        {\n            \"id\": 3,\n            \"patient_id\": 1,\n            \"doctor_id\": 1,\n            \"date\": \"2023-01-02T00:00:00.000Z\",\n            \"description\": \"Knee surgery follow up\",\n            \"is_cancelled\": false,\n            \"createdAt\": \"2022-12-22T10:12:20.512Z\",\n            \"updatedAt\": \"2022-12-22T10:12:20.512Z\",\n            \"PatientId\": null,\n            \"DoctorId\": null\n        },\n        {\n            \"id\": 6,\n            \"patient_id\": 1,\n            \"doctor_id\": 2,\n            \"date\": \"2023-05-07T00:00:00.000Z\",\n            \"description\": \"Covid checkup\",\n            \"is_cancelled\": false,\n            \"createdAt\": \"2022-12-22T10:19:31.996Z\",\n            \"updatedAt\": \"2022-12-22T10:19:31.996Z\",\n            \"PatientId\": null,\n            \"DoctorId\": null\n        },\n        {\n            \"id\": 7,\n            \"patient_id\": 1,\n            \"doctor_id\": 2,\n            \"date\": \"2023-05-07T00:00:00.000Z\",\n            \"description\": \"New meds\",\n            \"is_cancelled\": false,\n            \"createdAt\": \"2022-12-22T10:22:12.299Z\",\n            \"updatedAt\": \"2022-12-22T10:22:12.299Z\",\n            \"PatientId\": null,\n            \"DoctorId\": null\n        },\n        {\n            \"id\": 10,\n            \"patient_id\": 1,\n            \"doctor_id\": 1,\n            \"date\": \"2023-05-07T00:00:00.000Z\",\n            \"description\": \"New meds\",\n            \"is_cancelled\": false,\n            \"createdAt\": \"2022-12-22T10:26:40.187Z\",\n            \"updatedAt\": \"2022-12-22T10:26:40.187Z\",\n            \"PatientId\": null,\n            \"DoctorId\": null\n        },\n        {\n            \"id\": 2,\n            \"patient_id\": 1,\n            \"doctor_id\": 2,\n            \"date\": \"2025-02-17T00:00:00.000Z\",\n            \"description\": \"Knee surgery follow up\",\n            \"is_cancelled\": false,\n            \"createdAt\": \"2022-12-22T10:10:58.487Z\",\n            \"updatedAt\": \"2022-12-22T10:59:11.503Z\",\n            \"PatientId\": null,\n            \"DoctorId\": null\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Filter Dr Appointments",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5001/appointments/filter/byDoctorId/2/?limit=5&offset=2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"appointments",
+								"filter",
+								"byDoctorId",
+								"2",
+								""
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "5"
+								},
+								{
+									"key": "offset",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Filter Dr Appointments",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5001/appointments/filter/byDoctorId/2/?limit=5&offset=2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5001",
+									"path": [
+										"appointments",
+										"filter",
+										"byDoctorId",
+										"2",
+										""
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "5"
+										},
+										{
+											"key": "offset",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1191"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"4a7-7zwJ5QVXalqL8tRQJ2Aj1ZKRTpI\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Dec 2022 11:30:35 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"paginatedAppointments\": [\n        {\n            \"id\": 7,\n            \"patient_id\": 1,\n            \"doctor_id\": 2,\n            \"date\": \"2023-05-07T00:00:00.000Z\",\n            \"description\": \"New meds\",\n            \"is_cancelled\": false,\n            \"createdAt\": \"2022-12-22T10:22:12.299Z\",\n            \"updatedAt\": \"2022-12-22T10:22:12.299Z\",\n            \"PatientId\": null,\n            \"DoctorId\": null\n        },\n        {\n            \"id\": 8,\n            \"patient_id\": 2,\n            \"doctor_id\": 2,\n            \"date\": \"2023-05-07T00:00:00.000Z\",\n            \"description\": \"New meds\",\n            \"is_cancelled\": false,\n            \"createdAt\": \"2022-12-22T10:22:21.232Z\",\n            \"updatedAt\": \"2022-12-22T10:22:21.232Z\",\n            \"PatientId\": null,\n            \"DoctorId\": null\n        },\n        {\n            \"id\": 9,\n            \"patient_id\": 2,\n            \"doctor_id\": 2,\n            \"date\": \"2023-05-07T00:00:00.000Z\",\n            \"description\": \"New meds\",\n            \"is_cancelled\": false,\n            \"createdAt\": \"2022-12-22T10:26:03.158Z\",\n            \"updatedAt\": \"2022-12-22T10:26:03.158Z\",\n            \"PatientId\": null,\n            \"DoctorId\": null\n        },\n        {\n            \"id\": 2,\n            \"patient_id\": 1,\n            \"doctor_id\": 2,\n            \"date\": \"2025-02-17T00:00:00.000Z\",\n            \"description\": \"Knee surgery follow up\",\n            \"is_cancelled\": false,\n            \"createdAt\": \"2022-12-22T10:10:58.487Z\",\n            \"updatedAt\": \"2022-12-22T10:59:11.503Z\",\n            \"PatientId\": null,\n            \"DoctorId\": null\n        },\n        {\n            \"id\": 5,\n            \"patient_id\": 2,\n            \"doctor_id\": 2,\n            \"date\": \"2024-12-10T00:00:00.000Z\",\n            \"description\": \"Covid checkup\",\n            \"is_cancelled\": false,\n            \"createdAt\": \"2022-12-22T10:19:27.323Z\",\n            \"updatedAt\": \"2022-12-22T11:00:47.822Z\",\n            \"PatientId\": null,\n            \"DoctorId\": null\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Read Cancelled Appointments",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5001/appointments/deleted/?limit=5&offset=0",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"appointments",
+								"deleted",
+								""
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "5"
+								},
+								{
+									"key": "offset",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Read Cancelled Appointments",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5001/appointments/deleted/?limit=5&offset=0",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5001",
+									"path": [
+										"appointments",
+										"deleted",
+										""
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "5"
+										},
+										{
+											"key": "offset",
+											"value": "0"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "502"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1f6-BJiZ/i1EHmUcZcQqFKe3+z6GerA\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 22 Dec 2022 11:34:43 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"paginatedAppointments\": [\n        {\n            \"id\": 6,\n            \"patient_id\": 1,\n            \"doctor_id\": 2,\n            \"date\": \"2023-05-07T00:00:00.000Z\",\n            \"description\": \"Covid checkup\",\n            \"is_cancelled\": true,\n            \"createdAt\": \"2022-12-22T10:19:31.996Z\",\n            \"updatedAt\": \"2022-12-22T10:19:31.996Z\",\n            \"PatientId\": null,\n            \"DoctorId\": null\n        },\n        {\n            \"id\": 2,\n            \"patient_id\": 1,\n            \"doctor_id\": 2,\n            \"date\": \"2025-02-17T00:00:00.000Z\",\n            \"description\": \"Knee surgery follow up\",\n            \"is_cancelled\": true,\n            \"createdAt\": \"2022-12-22T10:10:58.487Z\",\n            \"updatedAt\": \"2022-12-22T10:59:11.503Z\",\n            \"PatientId\": null,\n            \"DoctorId\": null\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Generate Admin Token",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"hms@admin.com\",\n    \"password\": \"root123\",\n    \"returnSecureToken\": true\n}\n\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyBX808q3CdRWE0OY_8lyHsfi6VaoDdJBY0",
+							"protocol": "https",
+							"host": [
+								"www",
+								"googleapis",
+								"com"
+							],
+							"path": [
+								"identitytoolkit",
+								"v3",
+								"relyingparty",
+								"verifyPassword"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "AIzaSyBX808q3CdRWE0OY_8lyHsfi6VaoDdJBY0"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{admin-auth}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "admin-auth",
+			"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6ImFmZjFlNDJlNDE0M2I4MTQxM2VjMTI1MzQwOTcwODUxZThiNDdiM2YiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiaG1zYWRtaW4iLCJyb2xlIjoiYWRtaW4iLCJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vaG1zLWl0ay02MDYyMSIsImF1ZCI6Imhtcy1pdGstNjA2MjEiLCJhdXRoX3RpbWUiOjE2NzE2OTQ2ODcsInVzZXJfaWQiOiI1b2FCR29yT0Z2WTlVNWpsbndJbHJSZW1hMnQyIiwic3ViIjoiNW9hQkdvck9Gdlk5VTVqbG53SWxyUmVtYTJ0MiIsImlhdCI6MTY3MTY5NDY4NywiZXhwIjoxNjcxNjk4Mjg3LCJlbWFpbCI6Imhtc0BhZG1pbi5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsiaG1zQGFkbWluLmNvbSJdfSwic2lnbl9pbl9wcm92aWRlciI6InBhc3N3b3JkIn19.FKScVCzbhhxeG3jZUV4mEUvn-0XNoxcq7cUy4f1Mpdi0Imy1qWEa9RbtlFt8JJubTAA-mEbeqLi_tvE3ywfWagvTJ5IiUvAi2u4l5nNrN93I2dMGVWD1LdAvSEH_hmg1tV0Arx4tiljeNgLea0_lsZtfXua3qkLohQttRcwSVVfLVPGxdhxcn6nkFwacrG8DrZJQJ99_ZaJpfQ3gBc-UB2NlRAWotJgF161hDtKLIMeb6n7iLRrDPcZRHrg21oCnGQKcPNWxh0dBDhw2R4JGcfXB9CZVEVfq_IQvndZZQm0KfPEWlHApqPBpVV5OQ4CKde8iOvBPwr5SAeLJzHDLYA"
+		},
+		{
+			"key": "auth-dr-1",
+			"value": "Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6ImFmZjFlNDJlNDE0M2I4MTQxM2VjMTI1MzQwOTcwODUxZThiNDdiM2YiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiUmljYXJkbyBBbGVqb3MiLCJyb2xlIjoiZG9jdG9yIiwiaXNzIjoiaHR0cHM6Ly9zZWN1cmV0b2tlbi5nb29nbGUuY29tL2htcy1pdGstNjA2MjEiLCJhdWQiOiJobXMtaXRrLTYwNjIxIiwiYXV0aF90aW1lIjoxNjcxNjk0OTA5LCJ1c2VyX2lkIjoiTW1yN1BCNVZpT2NZZGM4MjFXRlI4TFg1cE0yMyIsInN1YiI6Ik1tcjdQQjVWaU9jWWRjODIxV0ZSOExYNXBNMjMiLCJpYXQiOjE2NzE2OTQ5MDksImV4cCI6MTY3MTY5ODUwOSwiZW1haWwiOiJkcmFsZWpvc0Bob3RtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiZmlyZWJhc2UiOnsiaWRlbnRpdGllcyI6eyJlbWFpbCI6WyJkcmFsZWpvc0Bob3RtYWlsLmNvbSJdfSwic2lnbl9pbl9wcm92aWRlciI6InBhc3N3b3JkIn19.m6W-mqlB0yx-6ixTV43fDSEBNjWebOMhEtTo2SB4-6TgGM0qkA-1x9OBoQS3jXgtEZ20lW60RJxZdFY2wSXCcShsfBRDAi8O6LBeKnHMIIZUjljppvuUj4dyIhfQftsJ2zIHBPwaFT9aq75KVxpH1iXLwvFAkHZIOWq3urmIFFymKnoJoKhrgHHd8QjLEh7VXvavWzFHHRWtLycdiH0Vn7N3uTjRNaTvOJjpxwvCTteUOJAyfoGnxNvJsABE7YcKrPGxohbH4Se1-Xc-5CrlPYdJjEnj8tJ7eZqivWotB4DQbcK6A8U7mW8GCpWA9jyWrVQUsOFlgEZU2F6pn7NMxg",
+			"type": "string"
+		},
+		{
+			"key": "auth-dr-2",
+			"value": "Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6ImFmZjFlNDJlNDE0M2I4MTQxM2VjMTI1MzQwOTcwODUxZThiNDdiM2YiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiRHVhIExpcGEiLCJyb2xlIjoiZG9jdG9yIiwiaXNzIjoiaHR0cHM6Ly9zZWN1cmV0b2tlbi5nb29nbGUuY29tL2htcy1pdGstNjA2MjEiLCJhdWQiOiJobXMtaXRrLTYwNjIxIiwiYXV0aF90aW1lIjoxNjcxNzAwNjIzLCJ1c2VyX2lkIjoiZExkc1BxMWNyQmI2Vm1Lcm5GdURoTFpVOWxTMiIsInN1YiI6ImRMZHNQcTFjckJiNlZtS3JuRnVEaExaVTlsUzIiLCJpYXQiOjE2NzE3MDA2MjMsImV4cCI6MTY3MTcwNDIyMywiZW1haWwiOiJkcmFkdWFAaG90bWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsiZHJhZHVhQGhvdG1haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoicGFzc3dvcmQifX0.aPiimYyWuoATkjB-fz_xUSOI4EcbDMUEy2ILPfRYMRPwFa_s2yyiuRUnD9dXsySpZ_CH_-OY74_fdNTmKtBmpClJGKRDypRL1vYXkZJLqijTZGUnN4-KeD65nIW3fAzuY8i5MWXONDXzxRjU-HTu4uqeIFQNanx4LRK2NGIocUcUpxE4dzPUZKqpN2dfeRPSHQuUnA8U-rMS9V3ZjyR7Ho3wqYE8jD0Fmf_d9Lrn5Dn1h5WARARGSS4Nl10zXC4l-mHHzVJGbhNMayzrnnMQTv53XPw0egIpXIwfxfK5fJxBkzp5RFKNDXr9dV-ML6D5lyl5q4bfvYe2tssscKSy9Q"
+		},
+		{
+			"key": "auth-px-1",
+			"value": "Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6ImFmZjFlNDJlNDE0M2I4MTQxM2VjMTI1MzQwOTcwODUxZThiNDdiM2YiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiRGFubmFlIERpYXoiLCJyb2xlIjoicGF0aWVudCIsImlzcyI6Imh0dHBzOi8vc2VjdXJldG9rZW4uZ29vZ2xlLmNvbS9obXMtaXRrLTYwNjIxIiwiYXVkIjoiaG1zLWl0ay02MDYyMSIsImF1dGhfdGltZSI6MTY3MTY5Nzc2NSwidXNlcl9pZCI6IjNWQW94NmZYbHJoTFFmRGpyaWpOb200enR0UTIiLCJzdWIiOiIzVkFveDZmWGxyaExRZkRqcmlqTm9tNHp0dFEyIiwiaWF0IjoxNjcxNjk3NzY1LCJleHAiOjE2NzE3MDEzNjUsImVtYWlsIjoiZGFubmFlQGhvdG1haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbImRhbm5hZUBob3RtYWlsLmNvbSJdfSwic2lnbl9pbl9wcm92aWRlciI6InBhc3N3b3JkIn19.StaPbKyBt26UTw3iPdo--tBJ-20failLn-C1oTMGRYNU0JbLcOwGjYTTM0auUmqWclk0Werd64L3vST8YPTjWSfVUOM1NuwhbTflYi7kIxtnSWWoo3LHJy_geKZDhFWURQWeq3bCzcJYEj4ZD9S3AKgkiaaxAQ9sQC9lRyHFO25nbhtBn8xz3_uoF4YcPhyxQDUL8gtEdYo4tkvW02EmIuDw2C__-peWCSqi2yhUa2VrmvPNUNp1EZWvgP9ftcO7NEiILM2bzRUjn7ghth3EnlmJ-g30uqjtFbW4RsmnpeW4cqo8f4Kxpx0qWvyKcuxOmmOJIYM_41tOf0nRyGYY2g",
+			"type": "string"
+		},
+		{
+			"key": "auth-px-2",
+			"value": "Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6ImFmZjFlNDJlNDE0M2I4MTQxM2VjMTI1MzQwOTcwODUxZThiNDdiM2YiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiSmFuZSBEb2UiLCJyb2xlIjoicGF0aWVudCIsImlzcyI6Imh0dHBzOi8vc2VjdXJldG9rZW4uZ29vZ2xlLmNvbS9obXMtaXRrLTYwNjIxIiwiYXVkIjoiaG1zLWl0ay02MDYyMSIsImF1dGhfdGltZSI6MTY3MTY5NTg3MSwidXNlcl9pZCI6IlFnSWRwcG4wZnBVOUpWZnljeFpsdVdjc29vdzIiLCJzdWIiOiJRZ0lkcHBuMGZwVTlKVmZ5Y3habHVXY3Nvb3cyIiwiaWF0IjoxNjcxNjk1ODcxLCJleHAiOjE2NzE2OTk0NzEsImVtYWlsIjoiamFuZUBob3RtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiZmlyZWJhc2UiOnsiaWRlbnRpdGllcyI6eyJlbWFpbCI6WyJqYW5lQGhvdG1haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoicGFzc3dvcmQifX0.tby9lHaeVtF4E3w_AyoInvdeQdzRVIA_o4ShaQKgBxHcXGkLdBTukP9rbM61TvepK7SbAf9pAoVIZhdNiaRkPu4zFLOA8g836fFRj-ES30c8L9zVjbL6X655GMmDJXBUkVg5ZPRO9WGRM0e9oMghwU9qf9S7yUp_a3L50LRVOwMJiNxTuqUdjtkZXJ9w6SIXRqBjKUOhzAIb4Pv1pVWqBsLo04G_q5yAXW9kPmzC16a-1jykNMXAca4h8M1LE-zMXyngGUWM3rXor-tUE8aGWmMnprM4OMYnFMM5NHPFz_Tcdh5k8Vo8pEv5P9L2fmA3DaBkzxn15gwRMPHHDL6_jA"
+		},
+		{
+			"key": "auth-px-3",
+			"value": "Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6ImFmZjFlNDJlNDE0M2I4MTQxM2VjMTI1MzQwOTcwODUxZThiNDdiM2YiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiSm9obiBBcHBsZXNlZWQiLCJyb2xlIjoicGF0aWVudCIsImlzcyI6Imh0dHBzOi8vc2VjdXJldG9rZW4uZ29vZ2xlLmNvbS9obXMtaXRrLTYwNjIxIiwiYXVkIjoiaG1zLWl0ay02MDYyMSIsImF1dGhfdGltZSI6MTY3MTY5Njc4MCwidXNlcl9pZCI6IkRHeW5xTkJZOXNmS0phNXpIUnltblE0U3R1VzIiLCJzdWIiOiJER3lucU5CWTlzZktKYTV6SFJ5bW5RNFN0dVcyIiwiaWF0IjoxNjcxNjk2NzgwLCJleHAiOjE2NzE3MDAzODAsImVtYWlsIjoiam9obkBob3RtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiZmlyZWJhc2UiOnsiaWRlbnRpdGllcyI6eyJlbWFpbCI6WyJqb2huQGhvdG1haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoicGFzc3dvcmQifX0.KhZxLVFBzivlH_067b-8zcnhOxGarceWruCtPTpcmNbXsQDfHAKTEBnBUHKcNbK8IELvHCuFtn7U6fgRdu5B_fYXGC_T73ulA0e_xg-2MQ20VF83wUm1x8iCcry0x9QVD-L-CYP56U5alW9g_r3gwl8N7avCWEYIH3xVbUZUoN-41vKl7XEPDF9Lr3K8x7BO69Fqxbvbc_loqvWzKsZwUSBDblY4sI_VIIQn0CAj2t7FL7XdFlFts16MeT2YvwTKzF_k54gtJAVz_xlQjVHSf0RFREuWDEcTsgzGMOenJo2cprQGepfsjzBp9fyCriqueQVB90yGV_XA-0NM-QmfaQ"
+		}
+	]
+}

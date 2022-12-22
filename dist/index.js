@@ -48,12 +48,12 @@ const PORT = process.env.PORT;
 const DB_PASS = process.env.DB_PASS;
 const DB_USER = process.env.DB_USER;
 const DB_NAME = process.env.DB_NAME;
-const DB_HOSTNAME = process.env.DB_HOSTNAME;
+const DB_HOST = process.env.DB_HOST;
 app_1.default.listen(PORT, () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const sequelize = (0, models_1.startSequelize)(DB_NAME, DB_PASS, DB_HOSTNAME, DB_USER);
+        const sequelize = (0, models_1.startSequelize)(DB_NAME, DB_PASS, DB_HOST, DB_USER);
         yield sequelize.sync(); // sincroniza metodos en sequelize con la DB en postgres
-        console.info('DB and Express server is up and running <3'); // ver esto en consola = funciona
+        console.info('DB and Express server is up and running!'); // ver esto en consola = funciona
     }
     catch (error) {
         console.error(error);

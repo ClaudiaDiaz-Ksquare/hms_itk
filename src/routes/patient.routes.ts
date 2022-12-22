@@ -1,150 +1,118 @@
-// import { Router, Request, Response } from "express";
-// import { isAuthenticated } from "../middlewares/isAuthenticated";
-// import { isAuthorized } from "../middlewares/isAuthorized";
-// import { createAppointment, fetchAppointmentById } from "../firebase";
+import { Router, Request, Response } from "express";
+import { DateOnlyDataType } from "sequelize";
+import { isAuthenticated } from "../middlewares/isAuthenticated";
+import { isAuthorized } from "../middlewares/isAuthorized";
+import { Gender } from "../models/patient.model";
+import { createPatient, fetchPatientById, updatePatientById } from "../repository/patient.repo";
 
-// export const PatientRouter = Router();
+export const PatientRouter = Router();
 
-// // Si quisieramos autorizar a todos los usuarios, de una vez pasamos el middleware a todo con .use
-// // UserRouter.use(isAuthorized)
-// // Sino, meter el middleware isAuthorized() solo en ciertos endpoints que querramos que tengan autorización
 
-// // ==================================  L C R U D  ==================================
+// =========================================  C R U D  =========================================
 
-// // LIST - [GET] all
-// // PatienttRouter.get('/', async (req: Request, res: Response) => {
 
-// //     // verificar si están accediendo a la ruta para obtener todos los usuarios
-// //     try {
-// //         const listedUsers = await getAllAppointments();
-// //         res.status(200).send({listedUsers});
-// //     } catch (error) {
-// //         res.status(400).send({error: "Couldn't list users. Verify the route"})
-// //     }
-// // })
+// CREATE - [POST]
+PatientRouter.post('/', isAuthenticated, isAuthorized({roles: ['admin','patient'], allowSameUser:true}), async (req:Request, res: Response) => {
+    // Agarrar la info desde lo que se metió al body
+    // const {gender, birthday, has_covid_vaccine} = req.body // pone type any 
+    const has_covid_vaccine: boolean  = req.body.has_covid_vaccine;
+    const gender: Gender  = req.body.gender;
+    const birthday: DateOnlyDataType  = req.body.birthday;
+    const uid = res.locals.uid;
 
-// // CREATE - [POST]
-// // Este endpoint debe poder ser llamado por todo el mundo
-// PatientRouter.post('/newAppointment', async (req:Request, res: Response) => {
-//     // Agarrar la info desde lo que se metió al body
-//     const { date_time, description }  = req.body
+    if (has_covid_vaccine === undefined) {
+        return res.status(400).send({error: 'Missing or incorrect fields'})
+    }
+    // Checar si falta info
+    if (!gender || !birthday) {
+        return res.status(400).send({error: 'Missing or incorrect fields'})
+    }
     
-//     // Checar si falta info
-//     if (!date_time) {
-//         return res.status(400).send({error: 'Missing fields'})
-//     }
-    
-//     // Checar que el rol sea adecuado
+    try {
+        const newPatientId = await createPatient(uid, gender, birthday, has_covid_vaccine);
+        if(!newPatientId){ // si regresa un null pq los valores del req.body no son correctos
+            throw new Error();
+        }
+        res.status(201).send({
+            success: "Patient created successfully!", 
+            newPatientId
+        })
+    } catch (error) {
+        res.status(500).send({error: "Something went wrong, couldn't post patient info. Verify request and path"})
+    }
+})
+
+// READ - [GET]
+// Este endpoint solo debe poder ser llamado por el rol de admin y el usuario dueño de este recurso
+PatientRouter.get('/:patientId', isAuthenticated, isAuthorized({roles: ['admin', 'patient'], allowSameUser:true}), async (req:Request, res: Response) => {
+    const { patientId } = req.params;
+
+    if (+patientId <= 0) {
+        return res.status(400).send({
+            error: 'Invalid id'
+        })
+    }
+
+    try {
+        const fetchedPatient = await fetchPatientById(+patientId);
+        if (fetchedPatient?.user_id !== res.locals.uid) {
+            throw new Error();
+        }
+        res.status(200).send({fetchedPatient});
+    } catch (error) {
+        res.status(400).send({error: "Couldn't find Patient. Verify the requested Patient ID"})
+    }
+
+})
+
+// UPDATE - [PUT]
+PatientRouter.put('/:patientId',  isAuthenticated, isAuthorized({roles: ['admin', 'patient'], allowSameUser:true}), async (req: Request, res: Response) => {
+    const patient_id = req.params['patientId'];
+    const {uid} = res.locals;
+    if (+patient_id <= 0) {
+        return res.status(400).send({
+            error: 'Invalid id'
+        })
+    }
+
+    // Agarrar la info desde lo que se metió al body
+    const { blood_type, risk_factors}  = req.body;
+
+    if (!risk_factors || !blood_type) {
+        return res.status(400).send({error: 'Missing or incorrect fields.'})
+    }
+
+    try {
+        const updatedRows = await updatePatientById(+patient_id, uid, blood_type, risk_factors);
+        if (!updatedRows) {
+            return res.status(500).send({
+                error: 'Update failed. Verify route and auth'
+            })
+        }
+        if (updatedRows[0] === 0) {
+            return res.status(400).send({
+                error: 'Update failed. Verify route and auth'
+            })
+        }
+        console.log(`Succesfully updated ${updatedRows} patient`);
+
+        res.status(200).send({updatedRows});
+    } catch (error) {
+        res.status(400).send({error: "Couldn't update Patient. Verify the requested Patient ID"})
+    }
+
+})
+
+
+// // DELETE - [DELETE]
+// // isAuthorized({ roles: ['patient'], allowSameUser: true })
+// PatientRouter.delete('/:patientId', isAuthenticated, isAuthorized({ roles: ['admin'], allowSameUser: true }), async (req: Request, res: Response) => {
+//     const patient_id = req.params['patientId'];
+
 //     try {
-//         const appointmentId = await createAppointment(date_time, description);
-//         res.status(201).send({
-//             appointmentId
-//         })
+//         const deletedPatient = await deletePatientById(+patient_id)
+//         res.status(200).send({deletedPatient});
 //     } catch (error) {
-//         res.status(500).send({error: "Something went wrong, couldn't post user."})
+//         res.status(400).send({error: "Couldn't disable Patient. Verify the requested Patient ID"})
 //     }
-
 // })
-
-// // READ - [GET]
-// // Este endpoint solo debe poder ser llamado por el rol de admin y el usuario dueño de este recurso
-// // isAuthenticated, isAuthorized({ roles: ['admin'], allowSameUser: true }),
-// PatientRouter.get('/:apptId', async (req:Request, res: Response) => {
-//     // Dos formas de obtener el userId
-//     const id: number = Number(req.params['apptId']);
-
-//     // verificar si existe el id
-//     try {
-//         const fetchedAppointment = await fetchAppointmentById(id);
-//         res.status(200).send({fetchedAppointment});
-//     } catch (error) {
-//         res.status(400).send({error: "Couldn't read user. The requested route doesn't exist"})
-//     }
-
-// })
-
-// // // UPDATE - [PUT]
-// // PatienttRouter.put('/:userId', async (req: Request, res: Response) => {
-// //     // Pasar el id del usuario a actualizar 
-// //     const id: string = req.params['userId'];
-// //     // const {id}  = req.params 
-// //     // Agarrar la info desde lo que se metió al body
-// //     const {displayName}  = req.body;
-// //     // const username  = req.body.displayName;
-
-// //     if (!displayName) {
-// //         return res.status(400).send({error: 'Missing or incorrect fields.'})
-// //     }
-
-// //     if (typeof(displayName) !== "string") {
-// //         return res.status(400).send({error: 'Please enter a string'})
-// //     } 
-    
-// //     // verificar si existe el id
-// //     try {
-// //         const updatedUser = await updateAppointment(id, displayName);
-
-// //         res.status(200).send({updatedUser});
-// //     } catch (error) {
-// //         res.status(400).send({error: "Couldn't update user. Verify the requested user ID"})
-// //     }
-
-// // })
-
-
-// // // DELETE - [DELETE]
-// // // isAuthorized({ roles: ['patient'], allowSameUser: true })
-// // PatienttRouter.delete('/:userId', async (req: Request, res: Response) => {
-// //     const id: string = req.params['userId'];
-// //     const disabled = true;
-
-// //     // verificar si existe el id
-// //     try {
-// //         const disabledUser = await disableAppointment(id, disabled)
-// //         res.status(200).send({disabledUser});
-// //     } catch (error) {
-// //         res.status(400).send({error: "Couldn't disable user. Verify the requested user ID"})
-// //     }
-// // })
-
-
-// // // ==================
-
-
-// // // CREATE - [POST]
-// // // Este endpoint debe poder ser llamado por todo el mundo
-// // PatienttRouter.post('/newDr', isAuthenticated, isAuthorized({ roles: ['admin'], allowSameUser: false }), async (req:Request, res: Response) => {
-// //     // Agarrar la info desde lo que se metió al body
-// //     const { displayName, email, password }  = req.body
-    
-// //     // Checar si falta info
-// //     if (!displayName || !email || !password) {
-// //         return res.status(400).send({error: 'Missing fields'})
-// //     }
-    
-// //     // Checar que el rol sea adecuado
-// //     try {
-// //         const doctorId = await createAppointment(displayName, email, password, 'doctor');
-// //         res.status(201).send({
-// //             doctorId
-// //         })
-// //     } catch (error) {
-// //         res.status(500).send({error: "Something went wrong, couldn't post doctor."})
-// //     }
-
-// // })
-
-// // // UNDO DELETE - [DELETE]
-// // // isAuthorized({ roles: ['patient'], allowSameUser: true })
-// // // Create an endpoint that can modify the is_active property from the User model back to true. 
-// // PatienttRouter.delete('/:userId/undo', async (req: Request, res: Response) => {
-// //     const id: string = req.params['userId'];
-// //     const disabled = false;
-
-// //     try {
-// //         const enabledUser = await enableAppointment(id, disabled)
-// //         res.status(200).send({enabledUser});
-// //     } catch (error) {
-// //         res.status(400).send({error: "Couldn't enable user. Verify the requested user ID"})
-// //     }
-// // })

@@ -9,45 +9,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteDoctorById = exports.updateDoctorById = exports.fetchDoctorById = exports.createDoctor = exports.listAllDoctors = exports.paginatedList = void 0;
+exports.fetchDoctorById = exports.createDoctor = void 0;
 const doctor_model_1 = require("../models/doctor.model");
-const paginatedList = (page_limit, page_offset) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const res = yield doctor_model_1.Doctor.findAll({
-            attributes: ['id', 'university', 'license_num'],
-            limit: page_limit,
-            offset: page_offset,
-            where: {
-                is_active: true
-            }
-        });
-        return res;
-    }
-    catch (error) {
-        console.error(error);
-        return null;
-    }
-});
-exports.paginatedList = paginatedList;
-const listAllDoctors = (is_active) => __awaiter(void 0, void 0, void 0, function* () {
-    const res = yield doctor_model_1.Doctor.findAll({
-        attributes: ['id', 'university'],
-        where: {
-            is_active: true
-        }
-    });
-    return res;
-});
-exports.listAllDoctors = listAllDoctors;
 // Create operation 
-const createDoctor = (doctorModel) => __awaiter(void 0, void 0, void 0, function* () {
+const createDoctor = (user_id, university, license_num, specialty, consulting_room) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const doctor = yield doctor_model_1.Doctor.create({
-            university: doctorModel.university,
-            license_num: doctorModel.license_num,
-            specialty_id: doctorModel.specialty_id,
+        const newDoctor = yield doctor_model_1.Doctor.create({
+            user_id,
+            university,
+            license_num,
+            specialty,
+            consulting_room,
         });
-        return doctor;
+        return newDoctor.id;
     }
     catch (error) {
         console.error(error);
@@ -55,10 +29,11 @@ const createDoctor = (doctorModel) => __awaiter(void 0, void 0, void 0, function
     }
 });
 exports.createDoctor = createDoctor;
+// Read operaTion
 const fetchDoctorById = (id) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const fetchedDr = yield doctor_model_1.Doctor.findByPk(id);
-        return fetchedDr;
+        const fetchedDoctor = yield doctor_model_1.Doctor.findByPk(id);
+        return fetchedDoctor;
     }
     catch (error) {
         console.error(error);
@@ -66,38 +41,37 @@ const fetchDoctorById = (id) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.fetchDoctorById = fetchDoctorById;
-const updateDoctorById = (id, doctorModel) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const updatedDr = yield doctor_model_1.Doctor.update({
-            consulting_room: doctorModel.consulting_room,
-            // phone: doctorModel.phone,
-        }, {
-            where: {
-                id: id
-            }
-        });
-        return updatedDr;
-    }
-    catch (error) {
-        console.error(error);
-        return null;
-    }
-});
-exports.updateDoctorById = updateDoctorById;
-const deleteDoctorById = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const inactiveDr = yield doctor_model_1.Doctor.update({
-            is_active: false
-        }, {
-            where: {
-                id: id
-            }
-        });
-        return inactiveDr;
-    }
-    catch (error) {
-        console.error(error);
-        return null;
-    }
-});
-exports.deleteDoctorById = deleteDoctorById;
+// // Update
+// export const updateDoctorById = async (id: number, university: string, license_num: number, specialty: string, phone: number, consulting_room: number) => {
+//     try {
+//         const updatedDoctor = await Doctor.update({
+//             university,
+//             license_num,
+//             specialty,
+//             phone,
+//             consulting_room,
+//         }, {
+//             where: {
+//                 id: id
+//             }
+//         })
+//         return updatedDoctor;
+//     } catch (error) {
+//         console.error(error);
+//         return null;
+//     }
+// }
+// // DELETE 
+// export const deleteDoctorById = async (id: number) => {
+//     try {
+//         const disabledDoctor = await Doctor.destroy({
+//             where: {
+//                 id: id
+//             }
+//         })
+//         return disabledDoctor;
+//     } catch (error) {
+//         console.error(error);
+//         return null;
+//     }
+// }

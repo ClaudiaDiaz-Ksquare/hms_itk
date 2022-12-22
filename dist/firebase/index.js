@@ -61,28 +61,30 @@ const readUser = (uid) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.readUser = readUser;
 const getAllUsers = () => __awaiter(void 0, void 0, void 0, function* () {
-    const listOfUsers = yield admin.auth().listUsers(15);
+    const listOfUsers = yield admin.auth().listUsers(20);
     const users = listOfUsers.users.map(mapToUser);
     return users;
 });
 exports.getAllUsers = getAllUsers;
-const updateUser = (uid, displayName) => __awaiter(void 0, void 0, void 0, function* () {
+const updateUser = (uid, displayName, email, password) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield admin.auth().updateUser(uid, {
-        displayName
+        displayName,
+        email,
+        password
     });
     return mapToUser(user);
 });
 exports.updateUser = updateUser;
-const disableUser = (uid, disabled) => __awaiter(void 0, void 0, void 0, function* () {
+const disableUser = (uid) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield admin.auth().updateUser(uid, {
-        disabled
+        disabled: true,
     });
     return `User ${uid} was succesfully disabled`;
 });
 exports.disableUser = disableUser;
-const enableUser = (uid, disabled) => __awaiter(void 0, void 0, void 0, function* () {
+const enableUser = (uid) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield admin.auth().updateUser(uid, {
-        disabled
+        disabled: false,
     });
     return `User ${uid} was succesfully enabled`;
 });
